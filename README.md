@@ -1,36 +1,202 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💕 Hôm Nay Đi Đâu Nè?
 
-## Getting Started
+Website dễ thương để chọn địa điểm hẹn hò cùng người yêu. Bé sẽ chấm điểm từ 1-10 cho từng địa điểm, và anh sẽ nhận được kết quả qua Telegram!
 
-First, run the development server:
+## ✨ Tính năng
+
+- 🌸 **Giao diện siêu cute** - Tone hồng pastel, glassmorphism, animations mượt mà
+- 📱 **Responsive hoàn hảo** - Tối ưu cho điện thoại
+- 💖 **35+ địa điểm** - Cafe, ẩm thực, giải trí, outdoor, và nhiều hơn nữa
+- 🎯 **Chấm điểm 1-10** - Slider + heart rating
+- 🏆 **Top 10 ranking** - Hiển thị kết quả đẹp mắt
+- 🎊 **Confetti** - Hiệu ứng pháo hoa khi xem kết quả
+- 💕 **Floating hearts** - Trái tim bay bay nền
+- 📲 **Gửi Telegram** - Nhận kết quả qua Telegram Bot
+- 🌙 **Dark mode** - Hỗ trợ chế độ tối pastel
+- 🔍 **Tìm kiếm & lọc** - Tìm theo tên hoặc danh mục
+
+## 🛠️ Công nghệ
+
+- **Next.js 14** - App Router
+- **TypeScript** - Type safety
+- **TailwindCSS v4** - Styling
+- **Framer Motion** - Animations
+- **Shadcn/UI** - UI components
+- **Lucide React** - Icons
+- **Canvas Confetti** - Hiệu ứng pháo hoa
+
+## 📦 Cấu trúc project
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── submit/
+│   │       └── route.ts          # API gửi kết quả về Telegram
+│   ├── globals.css               # Theme & custom animations
+│   ├── layout.tsx                # Root layout + SEO
+│   └── page.tsx                  # Main page (3-step flow)
+├── components/
+│   ├── ui/
+│   │   ├── button.tsx            # Shadcn button
+│   │   └── slider.tsx            # Shadcn slider
+│   ├── FloatingHearts.tsx        # Nền trái tim bay
+│   ├── LandingPage.tsx           # Trang chào mừng
+│   ├── LoadingScreen.tsx         # Loading dễ thương
+│   ├── PlaceCard.tsx             # Card chấm điểm
+│   ├── RatingPage.tsx            # Trang chấm điểm
+│   └── ResultsPage.tsx           # Trang kết quả
+├── data/
+│   └── places.ts                 # Dữ liệu 35 địa điểm
+├── lib/
+│   └── utils.ts                  # Utility functions
+└── types/
+    └── index.ts                  # TypeScript types
+```
+
+## 🚀 Chạy local
+
+### 1. Clone & Install
+
+```bash
+git clone <your-repo-url>
+cd place_date
+npm install
+```
+
+### 2. Cấu hình Telegram (Tuỳ chọn)
+
+Tạo file `.env.local` từ template:
+
+```bash
+cp .env.example .env.local
+```
+
+Điền thông tin:
+
+```env
+TELEGRAM_BOT_TOKEN=your_bot_token_here
+TELEGRAM_CHAT_ID=your_chat_id_here
+```
+
+> **Lưu ý:** Website vẫn hoạt động bình thường nếu chưa cấu hình Telegram. Kết quả sẽ được log ra console thay vì gửi Telegram.
+
+### 3. Chạy dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📲 Hướng dẫn lấy Telegram Bot Token & Chat ID
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Bước 1: Tạo Telegram Bot
 
-## Learn More
+1. Mở Telegram, tìm **@BotFather**
+2. Gõ `/newbot`
+3. Đặt tên bot (VD: "Date Place Bot")
+4. Đặt username cho bot (VD: `date_place_result_bot`)
+5. BotFather sẽ trả về **Bot Token** dạng: `1234567890:ABCdefGhIJKlmNoPQRsTUVwxYZ`
+6. Copy token này vào `TELEGRAM_BOT_TOKEN`
 
-To learn more about Next.js, take a look at the following resources:
+### Bước 2: Lấy Chat ID
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Mở Telegram, tìm bot bạn vừa tạo
+2. Gõ `/start` cho bot
+3. Truy cập URL sau trên trình duyệt (thay `YOUR_BOT_TOKEN`):
+   ```
+   https://api.telegram.org/botYOUR_BOT_TOKEN/getUpdates
+   ```
+4. Tìm `"chat":{"id": 123456789}` trong JSON response
+5. Copy số `123456789` vào `TELEGRAM_CHAT_ID`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> **Mẹo:** Nếu response trống, hãy gửi thêm 1 tin nhắn bất kỳ cho bot rồi refresh lại URL.
 
-## Deploy on Vercel
+## 🌐 Deploy lên Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Cách 1: Deploy từ GitHub (Khuyến nghị)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Push code lên GitHub:**
+   ```bash
+   git add .
+   git commit -m "🎀 Initial commit - Date place picker"
+   git remote add origin https://github.com/your-username/place-date.git
+   git push -u origin main
+   ```
+
+2. **Kết nối Vercel:**
+   - Vào [vercel.com](https://vercel.com) → Login
+   - Click **"Add New Project"**
+   - Chọn repository `place-date` từ GitHub
+   - Click **"Import"**
+
+3. **Cấu hình Environment Variables:**
+   - Trong trang deploy, tìm phần **"Environment Variables"**
+   - Thêm 2 biến:
+     | Name | Value |
+     |------|-------|
+     | `TELEGRAM_BOT_TOKEN` | Token bot của bạn |
+     | `TELEGRAM_CHAT_ID` | Chat ID của bạn |
+
+4. **Deploy:**
+   - Click **"Deploy"**
+   - Chờ ~1-2 phút
+   - Done! 🎉 Website sẽ có URL dạng: `https://place-date.vercel.app`
+
+### Cách 2: Deploy bằng Vercel CLI
+
+```bash
+# Cài Vercel CLI
+npm i -g vercel
+
+# Login
+vercel login
+
+# Deploy
+vercel
+
+# Thêm env variables
+vercel env add TELEGRAM_BOT_TOKEN
+vercel env add TELEGRAM_CHAT_ID
+
+# Deploy production
+vercel --prod
+```
+
+## 🎨 Customization
+
+### Thêm/sửa địa điểm
+
+Mở file `src/data/places.ts` và thêm/sửa object:
+
+```typescript
+{
+  id: "ten-dia-diem",
+  name: "Tên hiển thị",
+  emoji: "🌟",
+  category: "Danh mục",
+  description: "Mô tả ngắn gọn, dễ thương",
+}
+```
+
+### Sửa nội dung text
+
+- Landing page: `src/components/LandingPage.tsx`
+- Kết quả: `src/components/ResultsPage.tsx`
+
+### Sửa màu sắc
+
+Mở `src/app/globals.css`, tìm phần `:root` để thay đổi color scheme.
+
+## 💌 Gửi cho người yêu
+
+Sau khi deploy xong, gửi link cho người yêu với lời nhắn kiểu:
+
+> "Bé ơi, bấm vào link này chọn cho anh biết bé thích đi đâu nha 💕"
+>
+> https://your-app.vercel.app
+
+---
+
+Made with 💕 for couples
