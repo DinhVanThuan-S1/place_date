@@ -126,7 +126,7 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
             Kết quả đây rồi nè! 💕
           </h2>
           <p className="text-sm text-muted-foreground mt-2">
-            Top {topPlaces.length} địa điểm bé yêu thích nhất
+            Top {topPlaces.length} địa điểm công chúa yêu thích nhất
           </p>
         </motion.div>
 
@@ -139,9 +139,8 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
             return (
               <motion.div
                 key={place.id}
-                className={`glass rounded-3xl p-5 sm:p-6 relative overflow-hidden ${
-                  isTopThree ? "ring-1 ring-pink-200/50 dark:ring-pink-500/20" : ""
-                }`}
+                className={`glass rounded-3xl p-5 sm:p-6 relative overflow-hidden ${isTopThree ? "ring-1 ring-pink-200/50 dark:ring-pink-500/20" : ""
+                  }`}
                 initial={{ opacity: 0, x: -40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -171,9 +170,8 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
                       <Star className="w-4 h-4 text-pink-300 fill-pink-300" />
                     )}
                     <span
-                      className={`text-xs font-bold ${
-                        isTopThree ? "text-pink-500 dark:text-pink-300" : "text-pink-300"
-                      }`}
+                      className={`text-xs font-bold ${isTopThree ? "text-pink-500 dark:text-pink-300" : "text-pink-300"
+                        }`}
                     >
                       #{place.rank}
                     </span>
@@ -231,7 +229,7 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
           >
             <p className="text-4xl mb-3">😅</p>
             <p className="text-pink-400 font-medium">
-              Bé chưa chọn gì hết á, quay lại chọn đi nè!
+              Công chúa chưa chọn gì hết á, quay lại chọn đi nè!
             </p>
           </motion.div>
         )}
@@ -247,13 +245,12 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
             <motion.button
               onClick={handleSubmitToTelegram}
               disabled={submitStatus === "loading" || submitStatus === "success"}
-              className={`w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
-                submitStatus === "success"
+              className={`w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${submitStatus === "success"
                   ? "bg-gradient-to-r from-green-400 to-emerald-400 text-white shadow-lg shadow-green-200/50"
                   : submitStatus === "error"
-                  ? "bg-gradient-to-r from-pink-400 to-rose-400 text-white shadow-lg shadow-pink-200/50"
-                  : "bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white shadow-lg shadow-pink-300/40 dark:shadow-pink-500/20"
-              } disabled:opacity-70`}
+                    ? "bg-gradient-to-r from-pink-400 to-rose-400 text-white shadow-lg shadow-pink-200/50"
+                    : "bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white shadow-lg shadow-pink-300/40 dark:shadow-pink-500/20"
+                } disabled:opacity-70`}
               whileHover={submitStatus !== "success" ? { scale: 1.02 } : {}}
               whileTap={submitStatus !== "success" ? { scale: 0.98 } : {}}
             >
@@ -304,7 +301,7 @@ export default function ResultsPage({ topPlaces, ratings, onRestart }: ResultsPa
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                Anh đã nhận được kết quả rồi, cảm ơn bé yêu! 🥰
+                Anh đã nhận được kết quả rồi, cảm ơn công chúa yêu! 🥰
               </motion.p>
             )}
           </motion.div>

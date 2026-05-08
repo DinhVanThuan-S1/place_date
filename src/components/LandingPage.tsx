@@ -65,7 +65,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7 }}
         >
-          Bé ơi, chọn cho anh biết bé thích đi đâu nhé!
+          Công chúa ơi, chọn cho anh biết công chúa thích đi đâu nhé!
           <br />
           Chấm điểm từ 1-10, anh sẽ plan date xịn cho mình 🥰
         </motion.p>

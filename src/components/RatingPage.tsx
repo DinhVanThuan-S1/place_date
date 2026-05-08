@@ -90,7 +90,7 @@ export default function RatingPage({ onSubmit }: RatingPageProps) {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-rose-400 bg-clip-text text-transparent">
-            Chọn nơi bé thích nè! 🌸
+            Chọn nơi công chúa thích nè! 🌸
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
             Kéo thanh trượt hoặc bấm vào trái tim để chấm điểm
@@ -125,11 +125,10 @@ export default function RatingPage({ onSubmit }: RatingPageProps) {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${
-                activeCategory === cat
+              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${activeCategory === cat
                   ? "bg-gradient-to-r from-pink-400 to-rose-400 text-white shadow-md shadow-pink-200/50"
                   : "glass text-pink-500 dark:text-pink-300 hover:bg-pink-100/60 dark:hover:bg-pink-900/20"
-              }`}
+                }`}
             >
               {cat === "Tất cả" && <Filter className="w-3 h-3 inline mr-1" />}
               {cat}
