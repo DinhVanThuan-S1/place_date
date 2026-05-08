@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SubmitData, RankedPlace } from "@/types";
 
-function formatTelegramMessage(topPlaces: RankedPlace[], submittedAt: string): string {
+function formatTelegramMessage(topPlaces: RankedPlace[], submittedAt: string, isRandom: boolean = false): string {
   const date = new Date(submittedAt);
   const formattedDate = date.toLocaleString("vi-VN", {
     timeZone: "Asia/Ho_Chi_Minh",
@@ -25,8 +25,13 @@ function formatTelegramMessage(topPlaces: RankedPlace[], submittedAt: string): s
     10: "🌺",
   };
 
-  let message = `💕 *KẾT QUẢ CHỌN ĐỊA ĐIỂM HẸN HÒ* 💕\n`;
+  let message = isRandom
+    ? `🎲 *KẾT QUẢ CHỌN NGẪU NHIÊN* 🎲\n`
+    : `💕 *KẾT QUẢ CHỌN ĐỊA ĐIỂM HẸN HÒ* 💕\n`;
   message += `📅 ${formattedDate}\n`;
+  if (isRandom) {
+    message += `🎯 _Chế độ: Số phận quyết định!_\n`;
+  }
   message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   topPlaces.forEach((place) => {
@@ -44,7 +49,8 @@ function formatTelegramMessage(topPlaces: RankedPlace[], submittedAt: string): s
 
 export async function POST(request: NextRequest) {
   try {
-    const body: SubmitData = await request.json();
+    const body = await request.json();
+    const isRandom = body.isRandom === true;
 
     // Validate data
     if (!body.topPlaces || !Array.isArray(body.topPlaces) || body.topPlaces.length === 0) {
@@ -80,7 +86,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Format message for Telegram
-    const message = formatTelegramMessage(body.topPlaces, body.submittedAt);
+    const message = formatTelegramMessage(body.topPlaces, body.submittedAt, isRandom);
 
     // Send to Telegram
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;

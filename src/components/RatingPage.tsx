@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { places } from "@/data/places";
 import { PlaceRating, RankedPlace } from "@/types";
 import PlaceCard from "@/components/PlaceCard";
-import { ArrowRight, Heart, Search, Filter } from "lucide-react";
+import { ArrowRight, Heart, Search, Filter, Dice6 } from "lucide-react";
 
 interface RatingPageProps {
   onSubmit: (ratings: PlaceRating[], topPlaces: RankedPlace[]) => void;
+  onRandomPick: () => void;
 }
 
 const categories = [
@@ -27,7 +28,7 @@ const categories = [
   "Nghỉ dưỡng",
 ];
 
-export default function RatingPage({ onSubmit }: RatingPageProps) {
+export default function RatingPage({ onSubmit, onRandomPick }: RatingPageProps) {
   const [scores, setScores] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("Tất cả");
@@ -185,22 +186,34 @@ export default function RatingPage({ onSubmit }: RatingPageProps) {
         )}
       </div>
 
-      {/* Fixed bottom submit button */}
-      <AnimatePresence>
-        {ratedCount > 0 && (
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 p-4 z-40"
-            initial={{ y: 100, opacity: 0 }}
+      {/* Fixed bottom buttons */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 z-40">
+        <div className="max-w-2xl mx-auto flex gap-2">
+          {/* Random pick button - always visible */}
+          <motion.button
+            onClick={onRandomPick}
+            className="shrink-0 py-4 px-4 rounded-2xl bg-gradient-to-r from-purple-400 via-fuchsia-400 to-pink-400 text-white font-bold text-base shadow-xl shadow-purple-300/30 dark:shadow-purple-500/15 flex items-center justify-center gap-2 cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            initial={{ y: 0, opacity: 1 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
-            <div className="max-w-2xl mx-auto">
+            <Dice6 className="w-5 h-5" />
+            <span className="hidden sm:inline">Ngẫu nhiên</span>
+            <span className="sm:hidden">🎲</span>
+          </motion.button>
+
+          {/* Submit button */}
+          <AnimatePresence>
+            {ratedCount > 0 ? (
               <motion.button
                 onClick={handleSubmit}
-                className="w-full py-4 rounded-2xl bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold text-base shadow-xl shadow-pink-300/40 dark:shadow-pink-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                className="flex-1 py-4 rounded-2xl bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold text-base shadow-xl shadow-pink-300/40 dark:shadow-pink-500/20 flex items-center justify-center gap-2 cursor-pointer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
               >
                 Xem kết quả
                 <ArrowRight className="w-5 h-5" />
@@ -208,10 +221,19 @@ export default function RatingPage({ onSubmit }: RatingPageProps) {
                   {ratedCount} đã chọn
                 </span>
               </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ) : (
+              <motion.div
+                className="flex-1 py-4 rounded-2xl glass text-pink-400 dark:text-pink-300 font-medium text-sm flex items-center justify-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <Heart className="w-4 h-4 fill-pink-300" />
+                Chấm điểm hoặc chọn ngẫu nhiên nhé!
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </motion.div>
   );
 }

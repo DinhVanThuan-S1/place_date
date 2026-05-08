@@ -22,4 +22,4 @@ export interface RankedPlace extends Place {
   rank: number;
 }
 
-export type AppStep = "landing" | "rating" | "results";
+export type AppStep = "landing" | "rating" | "results" | "random-results";

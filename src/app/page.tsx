@@ -1,19 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
-import { PlaceRating, RankedPlace, AppStep } from "@/types";
+import { PlaceRating, RankedPlace, AppStep, Place } from "@/types";
+import { places } from "@/data/places";
+import { weightedRandomPick } from "@/lib/random";
 import FloatingHearts from "@/components/FloatingHearts";
 import LoadingScreen from "@/components/LoadingScreen";
 import LandingPage from "@/components/LandingPage";
 import RatingPage from "@/components/RatingPage";
 import ResultsPage from "@/components/ResultsPage";
+import RandomResultsPage from "@/components/RandomResultsPage";
+
+const BOOSTED_IDS = ["homestay", "box-game"];
 
 export default function HomePage() {
   const [step, setStep] = useState<AppStep>("landing");
   const [isLoading, setIsLoading] = useState(true);
   const [ratings, setRatings] = useState<PlaceRating[]>([]);
   const [topPlaces, setTopPlaces] = useState<RankedPlace[]>([]);
+  const [randomPlaces, setRandomPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
@@ -21,6 +27,23 @@ export default function HomePage() {
   }, []);
 
   const handleStart = () => {
+    setStep("rating");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleRandomPick = useCallback(() => {
+    const picked = weightedRandomPick(places, 3, BOOSTED_IDS, 15);
+    setRandomPlaces(picked);
+    setStep("random-results");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const handleReroll = useCallback(() => {
+    const picked = weightedRandomPick(places, 3, BOOSTED_IDS, 15);
+    setRandomPlaces(picked);
+  }, []);
+
+  const handleGoRating = () => {
     setStep("rating");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -35,6 +58,7 @@ export default function HomePage() {
   const handleRestart = () => {
     setRatings([]);
     setTopPlaces([]);
+    setRandomPlaces([]);
     setStep("landing");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -52,7 +76,11 @@ export default function HomePage() {
           <LandingPage key="landing" onStart={handleStart} />
         )}
         {!isLoading && step === "rating" && (
-          <RatingPage key="rating" onSubmit={handleSubmit} />
+          <RatingPage
+            key="rating"
+            onSubmit={handleSubmit}
+            onRandomPick={handleRandomPick}
+          />
         )}
         {!isLoading && step === "results" && (
           <ResultsPage
@@ -60,6 +88,15 @@ export default function HomePage() {
             topPlaces={topPlaces}
             ratings={ratings}
             onRestart={handleRestart}
+          />
+        )}
+        {!isLoading && step === "random-results" && (
+          <RandomResultsPage
+            key="random-results"
+            places={randomPlaces}
+            onReroll={handleReroll}
+            onBack={handleRestart}
+            onGoRating={handleGoRating}
           />
         )}
       </AnimatePresence>
